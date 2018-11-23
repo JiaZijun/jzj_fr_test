@@ -1,1 +1,39 @@
+# eclipse ignore
+.settings/
+.project
+.classpath
+intl-apiAdapter-provider/logs/
+
+# kdiff3 ignore
+*.orig
+
+# maven ignore
+
+
+
+
+# idea ignore
+.idea/
+*.ipr
+*.iml
+*.iws
+
+# temp ignore
+*.log
+*.cache
+*.diff
+*.patch
+*.tmp
+
+# system ignore
+.DS_Store
+Thumbs.db
+
+# package ignore (optional)
+# *.jar
+# *.war
+# *.zip
+# *.tar
+# *.tar.gz
+/bin/
 /target/
