@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="GB2312"?>  
+<TESTINFO version="1.0">  
+    <UPDATEINFO>  
+        <PARAM_TIMESTAMP>2010-12-22 09:54:09</PARAM_TIMESTAMP>  
+        <CITYINFO_LIST>  
+            <CITYINFO City="591" Name="XYZ" No="334" />  
+            <CITYINFO City="591" Name="BJD" No="335" />  
+            <CITYINFO City="591" Name="UUS" No="390" />  
+        </CITYINFO_LIST>  
+    </UPDATEINFO>  
+</TESTINFO>  
+ 

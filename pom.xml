@@ -1,0 +1,238 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.fr.test</groupId>
+  <artifactId>jzj_fr_test</artifactId>
+  <packaging>war</packaging>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>jzj_fr_test Maven Webapp</name>
+  <url>http://maven.apache.org</url>
+  
+  <properties>
+  	  <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	  <encoding>UTF-8</encoding>
+      <spring.version>5.0.8.RELEASE</spring.version>
+  </properties>
+  
+  <dependencies>
+    <!--spring  -->
+    <dependency>
+	    <groupId>org.springframework</groupId>
+	    <artifactId>spring-core</artifactId>
+	    <version>${spring.version}</version>
+	</dependency>
+	
+	<dependency>
+	    <groupId>org.springframework</groupId>
+	    <artifactId>spring-context</artifactId>
+	    <version>${spring.version}</version>
+	</dependency>
+	
+	<dependency>
+	    <groupId>org.springframework</groupId>
+	    <artifactId>spring-beans</artifactId>
+	    <version>${spring.version}</version>
+	</dependency>
+	
+	<dependency>
+	    <groupId>org.springframework</groupId>
+	    <artifactId>spring-web</artifactId>
+	    <version>${spring.version}</version>
+	</dependency>
+	
+	<dependency>
+	    <groupId>org.springframework</groupId>
+	    <artifactId>spring-webmvc</artifactId>
+	    <version>${spring.version}</version>
+	</dependency>
+	
+	<dependency>
+	    <groupId>org.springframework</groupId>
+	    <artifactId>spring-aop</artifactId>
+	    <version>${spring.version}</version>
+	</dependency>
+	
+	<dependency>
+	    <groupId>org.springframework</groupId>
+	    <artifactId>spring-tx</artifactId>
+	    <version>${spring.version}</version>
+	</dependency>
+	
+	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-test</artifactId>
+		<version>${spring.version}</version>
+	</dependency>
+	
+	<dependency>
+	    <groupId>org.springframework</groupId>
+	    <artifactId>spring-aspects</artifactId>
+	    <version>${spring.version}</version>
+	</dependency>
+	
+	<!--jackson  -->
+	<dependency>
+	    <groupId>com.fasterxml.jackson.core</groupId>
+	    <artifactId>jackson-core</artifactId>
+	    <version>2.9.6</version>
+	</dependency>
+	<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-annotations -->
+	<!-- 支持返回json格式数据 -->
+	<dependency>
+	    <groupId>com.fasterxml.jackson.core</groupId>
+	    <artifactId>jackson-annotations</artifactId>
+	    <version>2.9.7</version>
+	</dependency>
+
+    
+    <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
+	<dependency>
+	    <groupId>com.fasterxml.jackson.core</groupId>
+	    <artifactId>jackson-databind</artifactId>
+	    <version>2.9.7</version>
+	</dependency>
+
+	
+	<!-- https://mvnrepository.com/artifact/com.alibaba/fastjson -->
+	<dependency>
+	    <groupId>com.alibaba</groupId>
+	    <artifactId>fastjson</artifactId>
+	    <version>1.2.51</version>
+	</dependency>
+	
+	
+	<!--httpclient  -->
+	<dependency>  
+	    <groupId>org.apache.httpcomponents</groupId>  
+	    <artifactId>httpclient</artifactId>  
+	    <version>4.3.2</version>  
+    </dependency>  
+	  <dependency>  
+	    <groupId>org.apache.httpcomponents</groupId>  
+	    <artifactId>fluent-hc</artifactId>  
+	    <version>4.3.2</version>  
+	  </dependency>  
+	  
+	  <!--dom4j  -->
+	<dependency>
+	    <groupId>dom4j</groupId>
+	    <artifactId>dom4j</artifactId>
+	    <version>1.6.1</version>
+	</dependency>
+	
+	  <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpasyncclient</artifactId>
+            <version>4.0.2</version>
+      </dependency>
+   
+   <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
+	<dependency>
+	    <groupId>org.apache.commons</groupId>
+	    <artifactId>commons-lang3</artifactId>
+	    <version>3.8.1</version>
+	</dependency>
+	
+	<!-- https://mvnrepository.com/artifact/commons-lang/commons-lang -->
+	<dependency>
+	    <groupId>commons-lang</groupId>
+	    <artifactId>commons-lang</artifactId>
+	    <version>2.6</version>
+	</dependency>
+	
+	<!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
+	<dependency>
+	    <groupId>com.google.guava</groupId>
+	    <artifactId>guava</artifactId>
+	    <version>27.0-jre</version>
+	</dependency>
+	
+     <dependency>
+         <groupId>junit</groupId>
+         <artifactId>junit</artifactId>
+         <version>4.12</version>
+         <scope>test</scope>
+     </dependency>
+     
+    <!--动态配置-->
+	<dependency>
+		<groupId>com.baidu.disconf</groupId>
+		<artifactId>disconf-client</artifactId>
+		<version>2.6.35</version>
+	</dependency>
+  </dependencies>
+  
+  <build>
+    <finalName>jzj_fr_test</finalName>
+    <plugins> 
+              <plugin>  
+                 <groupId>org.apache.maven.plugins</groupId>  
+                  <artifactId>maven-compiler-plugin</artifactId>  
+                  <version>3.1</version>  
+                  <configuration>  
+                      <source>1.8</source>  <!-- maven创建时候默认是1.5，而我们的jdk是1.8 --> 
+                      <target>1.8</target>  
+                 </configuration>  
+             </plugin>  
+         </plugins>  
+  </build>
+  
+  <profiles>
+		<profile>
+			<id>dev</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<build>
+				<resources>
+					<resource>
+						<directory>src/main/resources.dev</directory>
+					</resource>
+					<resource>
+						<directory>src/main/resources</directory>
+					</resource>
+				</resources>
+			</build>
+		</profile>
+		<profile>
+			<id>prod</id>
+			<build>
+				<resources>
+					<resource>
+						<directory>src/main/resources.prod</directory>
+					</resource>
+					<resource>
+						<directory>src/main/resources</directory>
+					</resource>
+				</resources>
+			</build>
+		</profile>
+		<profile>
+			<id>betaa</id>
+			<build>
+				<resources>
+					<resource>
+						<directory>src/main/resources.betaa</directory>
+					</resource>
+					<resource>
+						<directory>src/main/resources</directory>
+					</resource>
+				</resources>
+			</build>
+		</profile>
+		<profile>
+			<id>betab</id>
+			<build>
+				<resources>
+					<resource>
+						<directory>src/main/resources.betab</directory>
+					</resource>
+					<resource>
+						<directory>src/main/resources</directory>
+					</resource>
+				</resources>
+			</build>
+		</profile>
+		
+	</profiles>
+</project>
