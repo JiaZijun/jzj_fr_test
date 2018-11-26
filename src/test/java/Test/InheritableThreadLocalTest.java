@@ -7,29 +7,27 @@ import org.apache.commons.lang3.StringUtils;
 
 /**
  *测试线程池提交任务
- * 
+ * 主线程设置的线程变量，子线程可以共享
  * @author jzj
  * @date 2018年11月19日 下午5:39:33
  * @desc
  */
-
-/*
- * 主线程类
- */
-public class ExcutorTest {
+public class InheritableThreadLocalTest {
 	
 	public static void main(String[] args) {
         // TODO Auto-generated method stub
 
         ExecutorService executorService=Executors.newFixedThreadPool(10);
-        System.out.println(Thread.currentThread().getName());
-        for (int i = 0; i < 5; i++) {
+        AirShoppingResultHolder.set("haha");
+    	AirShoppingResultHolder.set("hahaa");
+        System.out.println(Thread.currentThread().getName()+AirShoppingResultHolder.get());
+        for ( int i = 0; i < 5; i++) {
         	executorService.execute(new Runnable() {
                 
                 @Override
                 public void run() {
-                	AirShoppingResultHolder.set("haha");
-                	AirShoppingResultHolder.set("呵呵");
+                	System.out.println(Thread.currentThread().getName()+"----"+AirShoppingResultHolder.get());
+                	AirShoppingResultHolder.set("子线程hahha");
                 	System.out.println(Thread.currentThread().getName()+"----"+AirShoppingResultHolder.get());
                 }
             });

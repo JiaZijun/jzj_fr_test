@@ -24,95 +24,22 @@ import Test.User.InfoTest;
 import java.util.Set;
 
 /**
- * 类说明：比较两个实体的有哪些属性值不同
+ * 类说明：利用反射比较两个实体的有哪些属性值不同
  * @author zwq1105
  * @version 创建时间：2017-3-4 下午16:30:36
  */
 public class ConstrastObj {
 	
 	public static void main(String[] args) {
-//		test1();
-			try {
-				test2();
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		try {
+			test2();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 	
-	private static void test1() {
-		//按照supplierList的
-		List<String> list1 = new ArrayList<String>();//7
-		list1.add("2");
-		list1.add("3");
-		list1.add("2");
-		list1.add("2");
-		list1.add("4");
-		list1.add("5");
-		list1.add("5");
-		
-		/**
-		 * 找出pcc等其他设置相等的供应商
-		 */
-		Map<String, List<String>> map = new HashMap<String, List<String>>();
-		for (int i = 0; i < list1.size(); i++) {
-//			if(i == list1.size()-1){//最后一个位置比较
-//				if(map.get(list1.get(i)) != null){
-//					map.get(list1.get(i)).add(list1.get(i));
-//					break ;
-//				}else{
-//					List<String> list = new ArrayList<String>();
-//					list.add(list1.get(i));
-//					map.put(list1.get(i), list);
-//				}
-//			}
-			
-			for (int j = i+1; j <= list1.size()-1; j++) {
-				boolean isSame = compareFields1(list1.get(i), list1.get(j));
-				System.out.println("-j-"+j+"-list1.get(j)-"+list1.get(j));
-				if(isSame){
-					if(map.get(list1.get(i)) == null){//换成两个供应的属性比较方法
-						List<String> list = new ArrayList<String>();
-						list.add(list1.get(j));
-						map.put(list1.get(i),list);
-					}else{
-						map.get(list1.get(i)).add(list1.get(j));
-					}
-				}
-				if(j == list1.size()-1 && map.get(list1.get(i)) == null){
-					List<String> list = new ArrayList<String>();
-					list.add(list1.get(i));
-					map.put(list1.get(i), list);
-				}
-				System.out.println("----map---------"+map);
-			}
-			
-		}
-		
-		
-		List<String> list = new ArrayList<String>(map.keySet()) ;
-		System.out.println("--list--"+list);
-		
-		//返回供应商,将此供应商返回的数据加入和另外几个供应商的数据中
-		List<String> listReturn = new ArrayList<String>();
-		list1.add("2");
-		list1.add("3");
-		list1.add("4");
-		list1.add("5");
-		
-		for (String string : listReturn) {
-			List<String> supplierList = map.get(string);
-			//获取当前供应商的route
-			
-			//将当前供应商的数据分配给和此供应商一样配置的其他供应商
-			for (String supplier : supplierList) {
-				String supplierCode = supplier;
-			}
-		}
-		
-	}
-
 	public static boolean compareFields1(String o1, String o2){
 		if(o1.equals(o2)){
 			return true;

@@ -3,6 +3,13 @@ package Test;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * list对象传递问题
+ * 
+ * @author jzj
+ * @date 2018年11月26日 下午7:25:18
+ * @desc
+ */
 public class ListTest {
 
 	public static void main(String... args) {

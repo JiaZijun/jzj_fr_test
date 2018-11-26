@@ -35,9 +35,6 @@ public class JsonTest {
 
 		c.testJson();
 
-
-		//	new JsonTestService("哈哈");
-
 	}
 	
 	public static void main(String[] args) {
