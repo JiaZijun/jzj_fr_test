@@ -1,409 +1,222 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-	<meta http-equiv="Expires" content="0">
-	<meta http-equiv="Pragma" content="no-cache">
-	<meta http-equiv="Cache-control" content="no-cache,no-store">
-	<meta http-equiv="Cache" content="no-cache">
-	<meta name="renderer" content="webkit"/>
-	<style type="text/css">
-		html {
-		overflow: hidden;
-	}
-	
-	body {
-		margin: 0;
-		padding: 0;
-		overflow: hidden;
-		color: #fff;
-		background: #171150;
-	}
-	</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <title>layui在线调试</title>
+  <link rel="stylesheet" href="../layui/css/layui.css" media="all">
+  <style>
+    body{margin: 10px;}
+    .demo-carousel{height: 200px; line-height: 200px; text-align: center;}
+  </style>
 </head>
 <body>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/98/three.min.js"></script>
-	<div id="container">
-	<h1>哈哈html</h1>
-	</div>
-	<script type="text/javascript">
-		var container = document.getElementById( 'container' );
-	
-		var renderer = new THREE.WebGLRenderer( { antialias: true } );
-		renderer.setPixelRatio( window.devicePixelRatio );
-		renderer.setSize( window.innerWidth, window.innerHeight );
-		container.appendChild( renderer.domElement );
-	
-		var camera = new THREE.PerspectiveCamera( 40, window.innerWidth / window.innerHeight, .1, 1000 );
-		camera.position.set( 0, 0, 4 );
-	
-		var scene = new THREE.Scene();
-		scene.background = new THREE.Color( 0x4831ab );
-	
-		// lights
-		var aLight = new THREE.AmbientLight( 0x7f46ab );
-		scene.add( aLight );
-	
-		// ---------------------------------------------------------------
-		// ---------------------------------------------------------------
-	
-		// clouds
-	
-		var cloudsSize = new THREE.Vector3( 15, 4, 6 );
-		var cloudsBox = new THREE.Box3();
-		cloudsBox.setFromCenterAndSize( new THREE.Vector3(), cloudsSize );
-	
-		// -----------------------------------------------------------------
-	
-		var sphereGeo = new THREE.SphereBufferGeometry( 0.2, 32, 16 );
-		var cloudMat = new THREE.MeshPhongMaterial({
-			color: 0xffffff,
-			shininess: 0
-		});
-	
-		var Cloud = function() {
-	
-			THREE.Group.call( this );
-	
-			this.spheres = [];
-	
-			// fill in 3 boxes with a random number of
-			// randomly positioned and randomly scaled spheres
-	
-			// large base
-			var center1 = new THREE.Vector3();
-			var size1 = new THREE.Vector3( 1, 0.25, 0.6 );
-			var number1 = THREE.Math.randInt( 10, 25 );
-			var scaleRange1 = new THREE.Vector2( 0.2, 1 );
-			this.fillBox( center1, size1, number1, scaleRange1 );
-	
-			// top of cloud
-			var center2 = new THREE.Vector3( 0, size1.y, 0 );
-			var size2 = new THREE.Vector3( 0.5, 0.25, 0.5 );
-			var number2 = THREE.Math.randInt( 5, 15 );
-			var scaleRange2 = new THREE.Vector2( 0.2, 1 );
-			this.fillBox( center2, size2, number2, scaleRange2 );
-	
-			// small tail
-			var center3 = new THREE.Vector3( -0.7, 0, 0 );
-			var size3 = new THREE.Vector3( 0.4, 0.2, 0.25 );
-			var number3 = THREE.Math.randInt( 3, 7 );
-			var scaleRange3 = new THREE.Vector2( 0.1, 0.5 );
-			this.fillBox( center3, size3, number3, scaleRange3 );
-	
-			this.userData.velocity = THREE.Math.randFloat( 0.003, 0.007 );
-	
-		};
-	
-		Cloud.prototype = Object.create( THREE.Group.prototype );
-		Cloud.prototype.constructor = Cloud;
-	
-		Cloud.prototype.fillBox = function( center, size, number, scale ){
-	
-			var box = new THREE.Box3();
-			box.setFromCenterAndSize( center, size );
-	
-			var boxGroup = new THREE.Group();
-			boxGroup.position.copy( center );
-			this.add( boxGroup );
-	
-			for ( var i = 0; i < number; i++ ) {
-	
-				var sphere = new THREE.Mesh( sphereGeo, cloudMat );
-	
-				sphere.position.set(
-					THREE.Math.randFloatSpread( size.x ),
-					THREE.Math.randFloatSpread( size.y ),
-					THREE.Math.randFloatSpread( size.z )
-				);
-	
-				sphere.userData.scale = THREE.Math.randFloat( scale.x, scale.y );
-				sphere.scale.setScalar( sphere.userData.scale );
-	
-				sphere.userData.velocity = THREE.Math.randFloat( 0.001, 0.002 );
-	
-				boxGroup.add( sphere );
-				this.spheres.push( sphere );
-	
-			}
-	
-			return boxGroup;
-	
-		};
-	
-		Cloud.prototype.update = function( t ){
-	
-			// scale individual spheres
-			for ( var i = 0; i < this.spheres.length; i++ ) {
-				var sphere = this.spheres[i];
-				var scaleOffset = Math.sin( t + ( i + 1 ) ) * 0.4 + 1;
-				sphere.scale.setScalar( sphere.userData.scale * scaleOffset );
-			}
-	
-			// move entire cloud forward
-			this.position.x += this.userData.velocity;
-	
-			// reset cloud position
-			if ( this.position.x > cloudsBox.max.x ) {
-				this.position.x = cloudsBox.min.x;
-			}
-	
-		};
-	
-		// -----------------------------------------------------------------
-	
-		// fill clouds box with clouds
-	
-		var clouds = [];
-	
-		for ( var i = 0; i < 40; i++ ) {
-	
-			var cloud = new Cloud();
-	
-			cloud.position.set(
-				THREE.Math.randFloatSpread( cloudsSize.x ),
-				THREE.Math.randFloatSpread( cloudsSize.y ),
-				THREE.Math.randFloatSpread( cloudsSize.z )
-			);
-	
-			scene.add( cloud );
-			clouds.push( cloud );
-	
-		}
-	
-		// -----------------------------------------------------------------
-		// -----------------------------------------------------------------
-	
-		// moon
-	
-		var MoonShader = {
-	
-			uniforms: {
-	
-				colorA: { type: 'v3', value: scene.background },
-				colorB: { type: 'v3', value: new THREE.Color('#fff') },
-	
-			},
-	
-			vertexShader: [
-	
-				"varying vec2 vUv;",
-				"void main() {",
-				"	vUv = uv;",
-				"	gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );",
-				"}"
-	
-			].join('\n'),
-	
-			fragmentShader: [
-	
-				"varying vec2 vUv;",
-				"uniform vec3 colorA;",
-				"uniform vec3 colorB;",
-	
-				"void main() {",
-				" float pct = smoothstep( 0.39, 0.44, vUv.y );",
-				"	vec3 col = mix( colorA, colorB, pct );",
-				"	gl_FragColor = vec4( col, 1.0 );",
-				"}"
-	
-			].join('\n')
-	
-		};
-	
-		var moonGeo = new THREE.SphereBufferGeometry( 2, 32, 32 );
-		var moonMat = new THREE.ShaderMaterial({
-			uniforms: THREE.UniformsUtils.clone( MoonShader.uniforms ),
-			vertexShader: MoonShader.vertexShader,
-			fragmentShader: MoonShader.fragmentShader,
-		});
-		var moon = new THREE.Mesh( moonGeo, moonMat );
-		moon.position.set( -3, 4, -20 );
-		moon.rotation.set(
-			- Math.PI / 2,
-			- Math.PI / 6,
-			Math.PI / 4
-		);
-		scene.add( moon );
-	
-		var moonLight = new THREE.DirectionalLight( 0xffffff, 0.8 );
-		moonLight.position.copy( moon.position );
-		scene.add( moonLight );
-	
-		//
-	
-		// key light
-	
-		var dLight = new THREE.DirectionalLight( 0xffffff, 0.2 );
-		dLight.position.set( 1, 1, 1 );
-		scene.add( dLight );
-	
-		// ---------------------------------------------------------------
-		// ---------------------------------------------------------------
-	
-		// stars
-	
-		StarShader = {
-	
-			uniforms: {
-	
-				color:   { type: 'v3', value: new THREE.Color( 0xffffff ) },
-				texture: { type: 't', value: null },
-				time:    { type: 'f', value: 0 },
-				size:    { type: 'f', value: 500.0 }
-	
-			},
-	
-			vertexShader: [
-	
-				'uniform float time;',
-				'uniform float size;',
-				'attribute float alphaOffset;',
-				'varying float vAlpha;',
-				'uniform vec4 origin;',
-	
-				'void main() {',
-	
-					'vAlpha = 0.5 * ( 1.0 + sin( alphaOffset + time ) );',
-	
-					'vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );',
-					'float cameraDist = distance( mvPosition, origin );',
-					'gl_PointSize = size / cameraDist;',
-					'gl_Position = projectionMatrix * mvPosition;',
-	
-				'}'
-	
-			].join('\n'),
-	
-			fragmentShader: [
-	
-				'uniform float time;',
-				'uniform vec3 color;',
-				'uniform sampler2D texture;',
-	
-				'varying float vAlpha;',
-	
-				'void main() {',
-				'  gl_FragColor = vec4( color, vAlpha );',
-				'  gl_FragColor = gl_FragColor * texture2D( texture, gl_PointCoord );',
-				'}'
-	
-			].join('\n')
-		};
-	
-		var Stars = function( options ) {
-	
-			var color = this.color = options.color || 0x333333;
-			var size = this.size = options.size || 0.4;
-	
-			var pointCount = this.pointCount = options.pointCount || 40;
-			var range = this.range = options.range || new THREE.Vector3( 2, 2, 2 );
-	
-			THREE.Group.call( this );
-	
-			// circle texture
-	
-			var canvas = document.createElement('canvas');
-			canvas.width = canvas.height = 128;
-			var ctx = canvas.getContext( '2d' );
-	
-			var centerX = canvas.width / 2;
-			var centerY = canvas.height / 2;
-			var radius = canvas.width / 3;
-	
-			ctx.beginPath();
-			ctx.arc( centerX, centerY, radius, 0, 2 * Math.PI, false );
-			ctx.fillStyle = '#fff';
-			ctx.fill();
-	
-			var texture = new THREE.Texture( canvas );
-			texture.premultiplyAlpha = true;
-			texture.needsUpdate = true;
-	
-			//
-	
-			StarShader.uniforms.texture.value = texture;
-			StarShader.uniforms.size.value = size;
-	
-			var pointsMat = new THREE.ShaderMaterial( {
-				uniforms:       StarShader.uniforms,
-				vertexShader:   StarShader.vertexShader,
-				fragmentShader: StarShader.fragmentShader,
-				blending:       THREE.AdditiveBlending,
-				depthWrite: false,
-				transparent:    true
-			});
-	
-			var pointsGeo = new THREE.BufferGeometry();
-	
-			var positions = new Float32Array( pointCount * 3 );
-			var alphas = new Float32Array( pointCount );
-	
-			for ( var i = 0; i < pointCount; i++ ) {
-	
-				positions[ i*3 + 0 ] = THREE.Math.randFloatSpread( range.x );
-				positions[ i*3 + 1 ] = THREE.Math.randFloatSpread( range.y );
-				positions[ i*3 + 2 ] = THREE.Math.randFloatSpread( range.z );
-	
-				alphas[ i ] = i;
-	
-			}
-	
-			pointsGeo.addAttribute( 'position', new THREE.BufferAttribute( positions, 3 ) );
-			pointsGeo.addAttribute( 'alphaOffset', new THREE.BufferAttribute( alphas, 1 ) );
-	
-			var points = this.points = new THREE.Points( pointsGeo, pointsMat );
-			points.sortParticles = true;
-			points.renderOrder = 1;
-	
-			this.add( points );
-	
-		}
-	
-		Stars.prototype = Object.create( THREE.Group.prototype );
-		Stars.prototype.constructor = Stars;
-	
-		// ---------------------------------------------------------------
-	
-		var stars = new Stars({
-			color: 0xffffff,
-			range: new THREE.Vector3( 110, 60, 30 ),
-			pointCount: 400,
-			size: 400,
-			speed: 0.1
-		});
-	
-		scene.add( stars );
-	
-		stars.position.z = -50;
-	
-		// ---------------------------------------------------------------
-		// ---------------------------------------------------------------
-	
-		window.addEventListener( 'resize', resize, false );
-		function resize() {
-			camera.aspect = window.innerWidth / window.innerHeight;
-			camera.updateProjectionMatrix();
-			renderer.setSize( window.innerWidth, window.innerHeight );
-		}
-	
-		var clock = new THREE.Clock();
-	
-		renderer.setAnimationLoop( loop );
-	
-		function loop() {
-	
-			var time = clock.getElapsedTime();
-	
-			for ( var i = 0; i < clouds.length; i++ ) {
-				clouds[i].update( time );
-			}
-	
-			stars.points.material.uniforms.time.value = time;
-	
-			renderer.render( scene, camera );
-		}
-	</script>
+ 
+<table class="layui-hide" id="demo" lay-filter="test"></table>
+ 
+<script type="text/html" id="barDemo">
+  <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
+  <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+ 
+<div class="layui-tab layui-tab-brief" lay-filter="demo">
+  <ul class="layui-tab-title">
+    <li class="layui-this">演示说明</li>
+    <li>日期</li>
+    <li>分页</li>
+    <li>上传</li>
+    <li>滑块</li>
+  </ul>
+  <div class="layui-tab-content">
+    <div class="layui-tab-item layui-show">
+    
+      <div class="layui-carousel" id="test1">
+        <div carousel-item>
+          <div><p class="layui-bg-green demo-carousel">在这里，你将以最直观的形式体验 layui！</p></div>
+          <div><p class="layui-bg-red demo-carousel">在编辑器中可以执行 layui 相关的一切代码</p></div>
+          <div><p class="layui-bg-blue demo-carousel">你也可以点击左侧导航针对性地试验我们提供的示例</p></div>
+          <div><p class="layui-bg-orange demo-carousel">如果最左侧的导航的高度超出了你的屏幕</p></div>
+          <div><p class="layui-bg-cyan demo-carousel">你可以将鼠标移入导航区域，然后滑动鼠标滚轮即可</p></div>
+        </div>
+      </div>
+    </div>
+    <div class="layui-tab-item">
+      <div id="laydateDemo"></div>
+    </div>
+    <div class="layui-tab-item">
+      <div id="pageDemo"></div>
+    </div>
+    <div class="layui-tab-item">
+      <div class="layui-upload-drag" id="uploadDemo">
+        <i class="layui-icon"></i>
+        <p>点击上传，或将文件拖拽到此处</p>
+      </div>
+    </div>
+    <div class="layui-tab-item">
+      <div id="sliderDemo" style="margin: 50px 20px;"></div>
+    </div>
+  </div>
+</div>
+
+<blockquote class="layui-elem-quote layui-quote-nm layui-hide" id="footer">layui {{ layui.v }} 提供强力驱动</blockquote>
+
+  
+<script src="../layui/layui.js"></script>
+<script>
+layui.config({
+  version: '1542630986927' //为了更新 js 缓存，可忽略
+});
+ 
+layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'element', 'slider'], function(){
+  var laydate = layui.laydate //日期
+  ,laypage = layui.laypage //分页
+  ,layer = layui.layer //弹层
+  ,table = layui.table //表格
+  ,carousel = layui.carousel //轮播
+  ,upload = layui.upload //上传
+  ,element = layui.element //元素操作
+  ,slider = layui.slider //滑块
+  
+  //向世界问个好
+  layer.msg('Hello World');
+  
+  //监听Tab切换
+  element.on('tab(demo)', function(data){
+    layer.tips('切换了 '+ data.index +'：'+ this.innerHTML, this, {
+      tips: 1
+    });
+  });
+  
+  //执行一个 table 实例
+  table.render({
+    elem: '#demo'
+    ,height: 420
+    ,url: '/demo/table/user/' //数据接口
+    ,title: '用户表'
+    ,page: true //开启分页
+    ,toolbar: 'default' //开启工具栏，此处显示默认图标，可以自定义模板，详见文档
+    ,totalRow: true //开启合计行
+    ,cols: [[ //表头
+      {type: 'checkbox', fixed: 'left'}
+      ,{field: 'id', title: 'ID', width:80, sort: true, fixed: 'left', totalRowText: '合计：'}
+      ,{field: 'username', title: '用户名', width:80}
+      ,{field: 'experience', title: '积分', width: 90, sort: true, totalRow: true}
+      ,{field: 'sex', title: '性别', width:80, sort: true}
+      ,{field: 'score', title: '评分', width: 80, sort: true, totalRow: true}
+      ,{field: 'city', title: '城市', width:150} 
+      ,{field: 'sign', title: '签名', width: 200}
+      ,{field: 'classify', title: '职业', width: 100}
+      ,{field: 'wealth', title: '财富', width: 135, sort: true, totalRow: true}
+      ,{fixed: 'right', width: 165, align:'center', toolbar: '#barDemo'}
+    ]]
+  });
+  
+  //监听头工具栏事件
+  table.on('toolbar(test)', function(obj){
+    var checkStatus = table.checkStatus(obj.config.id)
+    ,data = checkStatus.data; //获取选中的数据
+    switch(obj.event){
+      case 'add':
+        layer.msg('添加');
+      break;
+      case 'update':
+        if(data.length === 0){
+          layer.msg('请选择一行');
+        } else if(data.length > 1){
+          layer.msg('只能同时编辑一个');
+        } else {
+          layer.alert('编辑 [id]：'+ checkStatus.data[0].id);
+        }
+      break;
+      case 'delete':
+        if(data.length === 0){
+          layer.msg('请选择一行');
+        } else {
+          layer.msg('删除');
+        }
+      break;
+    };
+  });
+  
+  //监听行工具事件
+  table.on('tool(test)', function(obj){ //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+    var data = obj.data //获得当前行数据
+    ,layEvent = obj.event; //获得 lay-event 对应的值
+    if(layEvent === 'detail'){
+      layer.msg('查看操作');
+    } else if(layEvent === 'del'){
+      layer.confirm('真的删除行么', function(index){
+        obj.del(); //删除对应行（tr）的DOM结构
+        layer.close(index);
+        //向服务端发送删除指令
+      });
+    } else if(layEvent === 'edit'){
+      layer.msg('编辑操作');
+    }
+  });
+  
+  //执行一个轮播实例
+  carousel.render({
+    elem: '#test1'
+    ,width: '100%' //设置容器宽度
+    ,height: 200
+    ,arrow: 'none' //不显示箭头
+    ,anim: 'fade' //切换动画方式
+  });
+  
+  //将日期直接嵌套在指定容器中
+  var dateIns = laydate.render({
+    elem: '#laydateDemo'
+    ,position: 'static'
+    ,calendar: true //是否开启公历重要节日
+    ,mark: { //标记重要日子
+      '0-10-14': '生日'
+      ,'2018-08-28': '新版'
+      ,'2018-10-08': '神秘'
+    } 
+    ,done: function(value, date, endDate){
+      if(date.year == 2017 && date.month == 11 && date.date == 30){
+        dateIns.hint('一不小心就月底了呢');
+      }
+    }
+    ,change: function(value, date, endDate){
+      layer.msg(value)
+    }
+  });
+  
+  //分页
+  laypage.render({
+    elem: 'pageDemo' //分页容器的id
+    ,count: 100 //总页数
+    ,skin: '#1E9FFF' //自定义选中色值
+    //,skip: true //开启跳页
+    ,jump: function(obj, first){
+      if(!first){
+        layer.msg('第'+ obj.curr +'页', {offset: 'b'});
+      }
+    }
+  });
+  
+  //上传
+  upload.render({
+    elem: '#uploadDemo'
+    ,url: '' //上传接口
+    ,done: function(res){
+      console.log(res)
+    }
+  });
+  
+  slider.render({
+    elem: '#sliderDemo'
+    ,input: true //输入框
+  });
+  
+  //底部信息
+  var footerTpl = lay('#footer')[0].innerHTML;
+  lay('#footer').html(layui.laytpl(footerTpl).render({}))
+  .removeClass('layui-hide');
+});
+</script>
 </body>
-</html>
+</html>        

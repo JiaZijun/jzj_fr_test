@@ -5,6 +5,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fr.test.bean.SupplierConfig;
+import com.fr.test.service.ISupplierService;
+import com.fr.test.service.factory.SupplierServiceFactory;
+import com.fr.test.service.supplier.SupplierService1;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,6 +21,12 @@ public class testController {
 	@Resource
 	private SupplierConfig supplierConfig;
 
+	@RequestMapping("/supplier")
+	@ResponseBody
+	public String supplier(){
+		return SupplierServiceFactory.getSupplierServiceByCode("S1").search();
+	}
+	
 	@RequestMapping("/test")
 	@ResponseBody
 	public String test(){

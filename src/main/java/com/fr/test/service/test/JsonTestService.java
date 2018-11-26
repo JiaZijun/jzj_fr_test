@@ -1,4 +1,4 @@
-package com.fr.test.service;
+package com.fr.test.service.test;
 
 import javax.annotation.PostConstruct;
 
