@@ -24,6 +24,11 @@ public class testController {
 		return "哈哈测试成功!";
 	}
 	
+	@RequestMapping("/haha")
+	public String haha(){
+		return "main";
+	}
+	
 	@RequestMapping("/config")
 	@ResponseBody
 	public String config(){
