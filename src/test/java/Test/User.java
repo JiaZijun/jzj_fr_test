@@ -140,6 +140,10 @@ public class User {
 		info1.setName("贾紫君");
 		u1.setInfo(info1);
 		
+		
+		test3(u1);
+		System.out.println(u1.getId());
+		
 		User u2 = new User();
 		
 		test3(info1.getName());
@@ -182,9 +186,14 @@ public class User {
 		
 		/*******************************************************/
 		test(u2);
-		System.out.println(u2.getInfo().getName());
+		System.out.println("-----1-----"+u2.getInfo().getName());
 		test1(u2);
 		System.out.println(u2.getId()+"--"+u2.getInfo().getName());
+	}
+
+	private static void test3(User u1) {
+		u1.setId(234);
+		
 	}
 
 	private static void test3(String name) {
@@ -197,7 +206,7 @@ public class User {
 		User user = new User();
 		user.setInfo(u2.getInfo());
 		user.getInfo().setName("hahhaha");
-		System.out.println(user.getInfo().getName()+"---"+u2.getInfo().getName());
+		System.out.println("-----1-----"+user.getInfo().getName()+"---"+u2.getInfo().getName());
 	}
 
 	private static void test1(User u2) {

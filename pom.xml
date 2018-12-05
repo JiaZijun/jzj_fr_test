@@ -166,6 +166,12 @@
 		<artifactId>disconf-client</artifactId>
 		<version>2.6.35</version>
 	</dependency>
+	
+	<dependency>
+			<groupId>com.flightroutes.flight.logcenter</groupId>
+			<artifactId>log_center</artifactId>
+			<version>1.2.5</version>
+		</dependency>
   </dependencies>
   
   <build>
