@@ -168,10 +168,18 @@
 	</dependency>
 	
 	<dependency>
-			<groupId>com.flightroutes.flight.logcenter</groupId>
-			<artifactId>log_center</artifactId>
-			<version>1.2.5</version>
-		</dependency>
+		<groupId>com.flightroutes.flight.logcenter</groupId>
+		<artifactId>log_center</artifactId>
+		<version>1.2.5</version>
+	</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/redis.clients/jedis -->
+	<dependency>
+	    <groupId>redis.clients</groupId>
+	    <artifactId>jedis</artifactId>
+	    <version>3.0.1</version>
+	</dependency>
+		
   </dependencies>
   
   <build>
@@ -189,7 +197,7 @@
          </plugins>  
   </build>
   
-  <profiles>
+  <!-- <profiles>
 		<profile>
 			<id>dev</id>
 			<activation>
@@ -246,5 +254,5 @@
 			</build>
 		</profile>
 		
-	</profiles>
+	</profiles> -->
 </project>

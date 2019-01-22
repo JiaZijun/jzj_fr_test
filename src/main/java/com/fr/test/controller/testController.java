@@ -1,7 +1,10 @@
 package com.fr.test.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fr.test.bean.SupplierConfig;
@@ -17,6 +20,8 @@ import javax.annotation.Resource;
 @Controller
 @RequestMapping("testCtrl")
 public class testController {
+	
+	private static final Logger logger = LoggerFactory.getLogger(testController.class);
 	
 	@Resource
 	private SupplierConfig supplierConfig;
@@ -51,6 +56,13 @@ public class testController {
 		map.put("aa", "测试");
 		map.put("bb", "成功");
 		return map;
+	}
+	
+    @RequestMapping("/jc")
+    @ResponseBody
+	public void testjc(@RequestParam(value="tokenUrl") String tokenUrl){
+    	System.out.println("===tokenUrl===" + tokenUrl);
+		
 	}
 	
 }
